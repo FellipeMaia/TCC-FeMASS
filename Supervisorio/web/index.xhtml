@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
+        <meta name="description" content=""></meta>
+        <meta name="author" content=""></meta>
+        <link href="./css/bootstrap.min.css" rel="stylesheet"></link>
+    </h:head>
+<h:body onload="#{chartBean.buscarDados()} selectGrafic(0)">
+    <div class="container col-12">
+        <div class="row offset-4 col-4" style="margin-top: 5px">
+            <button class="btn-success col-4" onclick="selectGrafic(0)" >Temperatura</button>
+            <button class="btn-info col-4"  onclick="selectGrafic(1)">Luminoso</button>
+            <button class="btn-primary col-4"  onclick="selectGrafic(2)">Fumaça</button>
+        </div>
+        <div class="row" style="padding-left: 3%;padding-right: 3%">
+            <canvas class="my-4 w-100" id="temperatura" width="800" height="320"></canvas>
+            <canvas class="my-4 w-100" id="luminoso" width="800" height="320"></canvas>
+            <canvas class="my-4 w-100" id="fumaca" width="800" height="320"></canvas>
+        </div>
+    </div>  
+            <!-- script's -->
+        <script src="./js/jquery-3.3.1.slim.min.js" 
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">       
+        </script> 
+        <script src="./js/bootstrap.min.js"></script>    
+            <!-- Graphs -->
+        <script src="./js/Chart.min.js"></script>
+        <script>
+            var ctx = document.getElementById("temperatura");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: #{chartBean.factoryCharjsDataTemp},
+                    options: {
+                        responsive: true,
+                        title: {display: true,text: ' Sensor Temperatura'},
+                        tooltips: {mode: 'index',intersect: false},
+                        hover: {mode: 'nearest',intersect: true},
+                        scales: {
+                            xAxes: [{display: true,scaleLabel: {display: true,labelString: 'Tempo'}}],
+                            yAxes: [{display: true,scaleLabel: {display: true,labelString: 'ºC'}}]
+                        }
+                    }
+		});
+        </script>
+        <script>
+            var ctx = document.getElementById("luminoso");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: #{chartBean.factoryCharjsDataLum},
+                    options: {
+                        responsive: true,
+                        title: {display: true,text: 'Sensor Luminoso'},
+                        tooltips: {mode: 'index',intersect: false},
+                        hover: {mode: 'nearest',intersect: true},
+                        scales: {
+                            xAxes: [{display: true,scaleLabel: {display: true,labelString: 'Tempo'}}],
+                            yAxes: [{display: true,scaleLabel: {display: true,labelString: 'Lumix'}}]
+                        }
+                    }
+		});
+        </script>
+        <script>
+            var ctx = document.getElementById("fumaca");
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: #{chartBean.factoryCharjsDataFumaca},
+                    options: {
+                        responsive: true,
+                        title: {display: true,text: 'Sensor de Gas(Fumaça)'},
+                        tooltips: {mode: 'index',intersect: false},
+                        hover: {mode: 'nearest',intersect: true},
+                        scales: {
+                            xAxes: [{display: true,scaleLabel: {display: true,labelString: 'Tempo'}}],
+                            yAxes: [{display: true,scaleLabel: {display: true,labelString: 'PPM'}}]
+                        }
+                    }
+		});
+        </script>
+<script>
+    function selectGrafic(sele){
+        switch(sele){
+            case 0:
+                document.getElementById("temperatura").hidden = false;
+                document.getElementById("luminoso").hidden = true;
+                document.getElementById("fumaca").hidden = true;
+            break;
+            case 1:
+                document.getElementById("temperatura").hidden = true;
+                document.getElementById("luminoso").hidden = false;
+                document.getElementById("fumaca").hidden = true;
+            break;
+            case 2:
+                document.getElementById("temperatura").hidden = true;
+                document.getElementById("luminoso").hidden = true;
+                document.getElementById("fumaca").hidden = false;
+            break;
+        }
+    }
+</script>
+    </h:body>
+</html>
+
+
